@@ -1,0 +1,34 @@
+{
+  "name": "yuu-chan",
+  "version": "2.0.3",
+  "description": "A bot for Discord using Node.js and Discord.js v13",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src",
+    "build": "node src/build.js",
+    "dev": "nodemon src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yumiko0828/yuu-chan.git"
+  },
+  "keywords": [],
+  "author": "Yasu Yumiko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Yumiko0828/yuu-chan/issues"
+  },
+  "homepage": "https://github.com/Yumiko0828/yuu-chan#readme",
+  "dependencies": {
+    "@discordjs/builders": "^0.12.0",
+    "@discordjs/rest": "^0.3.0",
+    "chalk": "^4.1.2",
+    "discord-api-types": "^0.31.1",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.1",
+    "nekos.life": "^3.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
