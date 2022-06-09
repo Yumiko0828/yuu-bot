@@ -1,6 +1,4 @@
 const { MessageEmbed } = require("discord.js");
-const Neko = require("nekos.life");
-const neko = new Neko();
 
 module.exports = {
   name: "wallpaper",
