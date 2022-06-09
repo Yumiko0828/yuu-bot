@@ -6,20 +6,24 @@ module.exports = {
   name: "wallpaper",
   alias: ["background", "wp"],
 
-  async execute(client, message, args) {
-    try {
-      let owo = await neko.wallpaper();
+  execute(client, message, args) {
+    fetch("https://nekos.life/api/v2/img/wallpaper", {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then(async (data) => {
+        const embed = new MessageEmbed()
+          .setTitle("<a:yuuVerify:978420003453943858> Wallpaper generado")
+          .setImage(data.url)
+          .setColor(client.config.hexColor)
+          .setTimestamp()
+          .setURL(data.url);
 
-      const embed = new MessageEmbed()
-        .setTitle("<a:yuuVerify:978420003453943858> Wallpaper generado")
-        .setImage(owo.url)
-        .setColor(client.config.hexColor)
-        .setTimestamp()
-        .setURL(owo.url);
-
-      await message.channel.send({ embeds: [embed] });
-    } catch (err) {
-      await message.channel.send({ content: err.message });
-    }
+        await message.channel.send({ embeds: [embed] });
+      })
+      .catch(async (err) => {
+        console.log(err);
+        await message.channel.send({ content: err.message });
+      });
   },
 };
