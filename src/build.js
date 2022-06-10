@@ -20,11 +20,13 @@ const rest = new REST({ version: 9 }).setToken(config.token);
 
 (async () => {
   try {
-    console.log(chalk.yellow("⁘ » Started refreshing application (/) commands..."));
+    console.log(
+      chalk.yellow("⁘ » Started refreshing application (/) commands...")
+    );
 
     await rest.put(
-      Routes.applicationGuildCommands(config.clientId, config.guildId), // Slash commands on a server
-      /* Routes.applicationCommands(config.clientId), */ // Global slash commands
+      // Routes.applicationGuildCommands(config.clientId, config.guildId), // Slash commands on a server
+      Routes.applicationCommands(config.clientId), // Global slash commands
       {
         body: commands,
       }

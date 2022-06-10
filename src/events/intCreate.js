@@ -8,17 +8,16 @@ client.on("interactionCreate", async (interaction) => {
 
   if (!command)
     return interaction.reply({
-      content: "An error has ocurred",
+      content: "Oops... parece que la interacción fue eliminada o no existe!",
       ephemeral: true,
     });
 
   try {
     await command.execute(client, interaction);
   } catch (err) {
-    console.error(err);
-
+    console.log(err);
     await interaction.reply({
-      content: "There was an error while executing this command!",
+      content: err.message,
       ephemeral: true,
     });
   }
