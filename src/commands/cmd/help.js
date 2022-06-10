@@ -13,13 +13,17 @@ module.exports = {
   async execute(client, message, args) {
     try {
       let cmdList = "";
+      let totalCmds = "";
+      let slashList = "";
+
       let cmdFiles = fs
         .readdirSync(path.join(__dirname, "./"))
         .filter((file) => file.endsWith(".js"));
-      let slashList = "";
       let slashFiles = fs
         .readdirSync(path.join(__dirname, "../slash"))
         .filter((file) => file.endsWith(".js"));
+
+      totalCmds += cmdFiles.length;
 
       cmdFiles.map((x) => {
         let i = client.config.prefix + x.replace(".js", "");
@@ -56,7 +60,7 @@ module.exports = {
       /*-------- Menu Embed --------*/
       const Menu = new MessageEmbed()
         .setTitle(`Comandos de ${client.user.username}`)
-        .setDescription(`Categorías: \`2\` & Comandos: \`10\``)
+        .setDescription(`Categorías: \`2\` & Comandos: \`${totalCmds}\``)
         .setThumbnail(client.user.avatarURL())
         .addField(
           "Categorías",
