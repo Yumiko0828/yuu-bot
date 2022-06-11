@@ -1,16 +1,15 @@
 module.exports = {
   name: "say",
   alias: ["echo"],
-  execute(client, message, args) {
-    message.delete();
-
+  async execute(client, message, args) {
     const txt = args.slice(0).join(" ");
 
     if (!txt)
-      return message.reply({
-        content: "<a:no:871913506167980052> tienes que escribir un mensaje!",
+      return await message.reply({
+        content: `<a:no:871913506167980052> Uso correcto: \`${client.config.prefix}${this.name} <message>\``,
       });
 
-    message.channel.send(txt);
+    await message.delete();
+    await message.channel.send(txt);
   },
 };

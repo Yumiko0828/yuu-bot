@@ -1,11 +1,18 @@
+const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
 const { date, hour } = require("yutil.js").format;
 
 module.exports = {
-  name: "userinfo",
-  alias: ["uinfo"],
-
-  async execute(client, message, args) {
+  data: new SlashCommandBuilder()
+    .setName("userinfo")
+    .setDescription("📄 Muestra la información del usuario.")
+    .addUserOption((option) =>
+      option
+        .setName("user")
+        .setDescription("El usuario del cual quieres la información")
+        .setRequired(true)
+    ),
+  async execute(client, int) {
     try {
       let estados = {
         online: "🟢 En linea",
@@ -14,13 +21,17 @@ module.exports = {
         undefined: "⚪ Desconectado/invisible",
       };
 
-      const member = message.mentions.members.first() || message.member;
+      let member = int.options.getUser("user");
+      console.log(member);
+
+      member.joinedAt = int.guild.members.cache.get(member.id).joinedAt;
+      member.roles = int.guild.members.cache.get(member.id).roles;
 
       const embedinfo = new MessageEmbed()
         .setColor(client.config.hexColor)
         .setDescription(`📚 | Informacion de **${member}**`)
-        .addField("👤 | Nombre:", member.user.tag)
-        .addField("🆔️ | Id:", ` ${member.user.id}`)
+        .addField("👤 | Nombre:", `${member.tag}`)
+        .addField("🆔️ | Id:", ` ${member.id}`)
         .addField(
           "👌🏻 | Apodo:",
           `${member.nickname !== null ? `${member.nickname}` : "Ninguno"}`
@@ -31,9 +42,7 @@ module.exports = {
         )
         .addField(
           "⏰ | Creacion de la cuenta:",
-          `${date(member.user.createdAt)}, a las ${hour(
-            member.user.createdAt
-          )}`
+          `${date(member.createdAt)}, a las ${hour(member.createdAt)}`
         )
         .addField(
           "💠 | Roles:",
@@ -45,13 +54,13 @@ module.exports = {
         )
         .addField("♻️ | Estado:", estados[member.presence?.status])
         .setThumbnail(
-          member.user.displayAvatarURL({ format: "png", dynamic: "true" })
+          member.displayAvatarURL({ format: "png", dynamic: "true" })
         );
 
-      await message.reply({ embeds: [embedinfo] });
+      await int.reply({ embeds: [embedinfo] });
     } catch (err) {
       console.log(err);
-      await message.channel.send({ content: err.message });
+      await int.reply({ content: err.message, ephemeral: true });
     }
   },
 };

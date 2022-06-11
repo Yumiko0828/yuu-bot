@@ -4,7 +4,7 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("8ball")
-    .setDescription("🎱Pregunta a la bola mágica.")
+    .setDescription("🎱 Pregunta a la bola mágica.")
     .addStringOption((option) =>
       option
         .setName("question")
@@ -24,6 +24,7 @@ module.exports = {
       "Todo apunta a que si",
       "Sin duda",
       "Si",
+      "no",
       "Osea si pero no",
       "Si - definitivamente",
       "Debes confiar en ello",

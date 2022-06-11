@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("ping")
-    .setDescription("Send a ping request."),
+    .setDescription("❓ Send a ping request."),
 
   async execute(client, int) {
     await int.reply({ content: `🏓Pong!` });

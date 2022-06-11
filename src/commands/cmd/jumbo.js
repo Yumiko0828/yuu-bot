@@ -7,7 +7,7 @@ module.exports = {
   async execute(client, message, args) {
     if (!args[0])
       return message.channel.send(
-        "<a:no:871913506167980052> Debes mencionar un emoji."
+        `<a:no:871913506167980052> Uso correcto: \`${client.config.prefix}${this.name} :emoji:\``
       );
 
     let emoji = message.guild.emojis.cache.find(
@@ -15,7 +15,7 @@ module.exports = {
     );
     if (!emoji)
       return message.channel.send(
-        "<a:no:871913506167980052> Ese no es un emoji valido."
+        "<a:no:871913506167980052> Ese no es un emoji valido, tiene que ser de este servidor!"
       );
 
     const embed = new MessageEmbed()

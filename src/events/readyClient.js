@@ -5,7 +5,7 @@ const chalk = require("chalk");
 /*-------- Event ready --------*/
 client.on("ready", () => {
   console.log(chalk.green(`✓ » ${client.user.username} ready!`));
-
+  
   /*-------- Set Presence --------*/
   async function $presence() {
     const status = [
@@ -21,7 +21,9 @@ client.on("ready", () => {
       },
       {
         type: "WATCHING",
-        content: `${client.users.cache.size} ${client.users.cache.size > 1 ? "usuarios" : "usuario"}`,
+        content: `${client.users.cache.size} ${
+          client.users.cache.size > 1 ? "usuarios" : "usuario"
+        }`,
       },
     ];
 

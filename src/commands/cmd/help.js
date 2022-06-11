@@ -40,11 +40,10 @@ module.exports = {
         new MessageSelectMenu()
           .setPlaceholder("Selecciona una categoría")
           .setCustomId("yuriko_menu")
-          .setMaxValues(2)
           .addOptions([
             {
               label: "Commands",
-              description: "Comandos (y!).",
+              description: `Comandos de prefijo (${client.config.prefix}).`,
               value: "cmds",
               emoji: "965758319446876201",
             },
@@ -64,7 +63,7 @@ module.exports = {
         .setThumbnail(client.user.avatarURL())
         .addField(
           "Categorías",
-          "❥ Comandos normales\n❥ Comandos de barra diagonal"
+          "❥ Comandos de prefijo\n❥ Comandos de barra diagonal"
         )
         .setFooter({
           text: `${client.user.username}`,
@@ -89,7 +88,9 @@ module.exports = {
       /*-------- Commands Embed --------*/
       const cmds = new MessageEmbed()
         .setTitle(`Comandos de ${client.user.username}`)
-        .setDescription("Comandos normales `(y!)`")
+        .setDescription(
+          "<a:exc:965758319446876201> **Advertencia**: La siguiente lista de comandos no esta separada de los comandos NSFW.\n\n**Nota**: Los comandos NSFW solo funcionan en canales que tenga activado el NSFW."
+        )
         .setThumbnail(client.user.avatarURL())
         .addField("Comandos:", `${cmdList.toString()}`)
         .setFooter({
@@ -102,7 +103,9 @@ module.exports = {
       /*-------- Slash Commands Embed --------*/
       const slashs = new MessageEmbed()
         .setTitle(`Comandos de ${client.user.username}`)
-        .setDescription("Comandos de barra diagonal `(/)`")
+        .setDescription(
+          "<a:exc:965758319446876201> **Advertencia**: La siguiente lista de comandos no esta separada de los comandos NSFW.\n\n**Nota**: Los comandos NSFW solo funcionan en canales que tenga activado el NSFW."
+        )
         .setThumbnail(client.user.avatarURL())
         .addField("Comandos:", `${slashList.toString()}`)
         .setFooter({
@@ -117,7 +120,8 @@ module.exports = {
         if (i.values[0] === "cmds") {
           await i.deferUpdate();
           i.editReply({ embeds: [cmds], components: [row] });
-        } else if (i.values[0] === "slashcmds") {
+        }
+        if (i.values[0] === "slashcmds") {
           await i.deferUpdate();
           i.editReply({ embeds: [slashs], components: [row] });
         }

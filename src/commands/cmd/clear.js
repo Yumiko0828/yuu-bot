@@ -8,13 +8,14 @@ module.exports = {
 
       if (!cantidad)
         return await message.reply(
-          "<a:no:871913506167980052> Debes decir la cantidad!"
+          `<a:no:871913506167980052> Uso correcto: \`${client.config.prefix}${this.name} <cantidad>\``
         );
 
       if (isNaN(cantidad))
         return await message.reply(
           "<a:no:871913506167980052> La cantidad debe ser un **número**!"
         );
+
       if (cantidad <= 0)
         return await message.reply(
           `<a:no:871913506167980052> La cantidad \`${cantidad}\` no es valida, debe ser mayor a **0**!`
@@ -28,7 +29,7 @@ module.exports = {
         } correctamente 🧹`
       );
     } catch (err) {
-      message.channel.send(err.message);
+      await message.channel.send(err.message);
     }
   },
 };
