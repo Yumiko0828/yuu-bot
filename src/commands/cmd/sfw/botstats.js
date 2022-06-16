@@ -28,7 +28,7 @@ module.exports = {
           "Activo desde",
           `» El **${format(client.readyAt).date}**, a las **${format(
             client.readyAt
-          ).date}**`
+          ).hour}**`
         )
         .addField("Servidores", `» ${client.guilds.cache.size}`)
         .addField("Usuarios", `» ${client.users.cache.size}`)
