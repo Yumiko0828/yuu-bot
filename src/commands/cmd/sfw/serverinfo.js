@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { date, hour } = require("yutil.js").format;
+const { format } = require("yutil.js");
 
 module.exports = {
   name: "serverinfo",
@@ -22,9 +22,9 @@ module.exports = {
       .addField("🆔ID:", message.guild.id)
       .addField(
         "✨Dia de creación",
-        `${date(message.guild.joinedAt)}, a las ${hour(
+        `${format(message.guild.joinedAt).date}, a las ${format(
           message.guild.joinedAt
-        )}`
+        ).hour}`
       )
       .addField("👑Dueño(a)", `<@${message.guild.ownerId}>`)
       .addField("👤Miembros:", `${message.guild.memberCount}`, true)

@@ -7,13 +7,16 @@ const { join } = require("node:path");
 
 const commands = [];
 
-const commandFiles = fs
-  .readdirSync(join(__dirname, "./commands/slash"))
-  .filter((file) => file.endsWith(".js"));
+const commandFiles = fs.readdirSync(join(__dirname, "./commands/slash"));
 
-for (const file of commandFiles) {
-  const command = require(`./commands/slash/${file}`);
-  commands.push(command.data.toJSON());
+for (const folders of commandFiles) {
+  const folder = fs
+    .readdirSync(join(__dirname, `./commands/slash/${folders}`))
+    .filter((file) => file.endsWith(".js"));
+  for (const file of folder) {
+    const command = require(`./commands/slash/${folders}/${file}`);
+    commands.push(command.data.toJSON());
+  }
 }
 
 const rest = new REST({ version: 9 }).setToken(config.token);
@@ -25,7 +28,7 @@ const rest = new REST({ version: 9 }).setToken(config.token);
     );
 
     await rest.put(
-      // Routes.applicationGuildCommands(config.clientId, config.guildId), // Slash commands on a server
+      // Routes.applicationGuildCommands(config.devClientId, config.guildId), // Slash commands on a server
       Routes.applicationCommands(config.clientId), // Global slash commands
       {
         body: commands,

@@ -1,35 +1,34 @@
-const path = require("path");
+const path = require("node:path");
 const chalk = require("chalk");
-const fs = require("fs");
-
+const fs = require("node:fs");
 
 module.exports = async (client) => {
+  console.log(chalk.yellow("⁘ » Cargando handlers..."));
 
-  console.log(chalk.yellow("⁘ » Cargando handlers..."))
-  
   /*--------- Command handler ---------*/
-  const commandFiles = fs
-    .readdirSync(path.join(__dirname, "../commands/cmd"))
-    .filter((file) => file.endsWith(".js"));
+  const commandFiles = fs.readdirSync(path.join(__dirname, "../commands/cmd"));
 
-    // commandFiles.map(x => {
-    //   console.log("y!" + x.replace(".js", ""))
-    // })
-
-  for (const file of commandFiles) {
-    const command = require(`../commands/cmd/${file}`);
-    client.commands.set(command.name, command);
+  for (const folders of commandFiles) {
+    const folder = fs
+      .readdirSync(path.join(__dirname, `../commands/cmd/${folders}`))
+      .filter((file) => file.endsWith(".js"));
+    for (const file of folder) {
+      const command = require(`../commands/cmd/${folders}/${file}`);
+      client.commands.set(command.name, command);
+    }
   }
 
   /*--------- slash handler ---------*/
-  const slashFiles = fs
-    .readdirSync(path.join(__dirname, "../commands/slash"))
-    .filter((file) => file.endsWith(".js"));
+  const slashFiles = fs.readdirSync(path.join(__dirname, "../commands/slash"));
 
-  for (const file of slashFiles) {
-    const command = require(`../commands/slash/${file}`);
-    // console.log(command);
-    client.slashs.set(command.data.name, command);
+  for (const folders of slashFiles) {
+    const folder = fs
+      .readdirSync(path.join(__dirname, `../commands/slash/${folders}`))
+      .filter((file) => file.endsWith(".js"));
+    for (const file of folder) {
+      const command = require(`../commands/slash/${folders}/${file}`);
+      client.slashs.set(command.data.name, command);
+    }
   }
 
   /*------------- Event handler -------------*/
@@ -41,6 +40,5 @@ module.exports = async (client) => {
     require(`../events/${file}`);
   }
 
-  console.log(chalk.green("✓ » Handler cargado!"))
-  
+  console.log(chalk.green("✓ » Handler cargado!"));
 };

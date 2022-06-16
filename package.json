@@ -1,6 +1,6 @@
 {
   "name": "yuu-chan",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "A bot for Discord using Node.js and Discord.js v13",
   "main": "index.js",
   "scripts": {
@@ -23,10 +23,10 @@
     "@discordjs/builders": "^0.15.0",
     "@discordjs/rest": "^0.5.0",
     "chalk": "^4.1.2",
-    "discord-api-types": "^0.33.5",
+    "discord-api-types": "^0.34.0",
     "discord.js": "^13.8.0",
     "dotenv": "^16.0.1",
-    "yutil.js": "^1.0.1"
+    "yutil.js": "^1.0.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.16"

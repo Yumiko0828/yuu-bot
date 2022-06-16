@@ -1,19 +1,12 @@
 const { MessageEmbed, version } = require("discord.js");
-const { size, format } = require("yutil.js");
+const { size, format, mstime } = require("yutil.js");
 
 module.exports = {
   name: "botstats",
   alias: ["bs"],
   async execute(client, message, args) {
     try {
-      let totalSeconds = client.uptime / 1000;
-      let days = Math.floor(totalSeconds / 86400);
-      totalSeconds %= 86400;
-      let hours = Math.floor(totalSeconds / 3600);
-      totalSeconds %= 3600;
-      let minutes = Math.floor(totalSeconds / 60);
-      let seconds = Math.floor(totalSeconds % 60);
-
+      const { days, hours, minutes, seconds } = mstime(client.uptime);
       const embed = new MessageEmbed()
         .setAuthor({
           name: client.user.username,
@@ -33,9 +26,9 @@ module.exports = {
         )
         .addField(
           "Activo desde",
-          `» El **${format.date(client.readyAt)}**, a las **${format.hour(
+          `» El **${format(client.readyAt).date}**, a las **${format(
             client.readyAt
-          )}**`
+          ).date}**`
         )
         .addField("Servidores", `» ${client.guilds.cache.size}`)
         .addField("Usuarios", `» ${client.users.cache.size}`)

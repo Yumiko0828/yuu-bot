@@ -12,29 +12,50 @@ module.exports = {
 
   async execute(client, message, args) {
     try {
-      let cmdList = "";
-      let totalCmds = "";
-      let slashList = "";
+      let commands = {
+        cmd: {
+          sfw: "",
+          nsfw: "",
+        },
+        slash: {
+          sfw: "",
+          nsfw: "",
+        },
+        total: 0,
+      };
 
-      let cmdFiles = fs
-        .readdirSync(path.join(__dirname, "./"))
-        .filter((file) => file.endsWith(".js"));
-      let slashFiles = fs
-        .readdirSync(path.join(__dirname, "../slash"))
-        .filter((file) => file.endsWith(".js"));
+      /**
+       * @param {string} folder
+       * @param {string} subfolder
+       * @param {string} prefix
+       */
+      function list(folder, subfolder, prefix = client.config.prefix) {
+        const f = fs
+          .readdirSync(path.join(__dirname, `../../${folder}/${subfolder}`))
+          .filter((file) => file.endsWith(".js"));
+        let l = "";
+        // Map list
+        f.map((x) => {
+          let i = prefix + x.replace(".js", "");
+          l += "❥ " + i + "\n";
+        });
+        return { list: l, length: f.length };
+      }
 
-      totalCmds += cmdFiles.length;
+      // Commands
+      commands.cmd.sfw += list("cmd", "sfw").list;
+      commands.cmd.nsfw += list("cmd", "nsfw").list;
 
-      cmdFiles.map((x) => {
-        let i = client.config.prefix + x.replace(".js", "");
-        cmdList += "❥ " + i + "\n";
-      });
+      // Slash Commands
+      commands.slash.sfw += list("slash", "sfw", "/").list;
+      commands.slash.nsfw += list("slash", "nsfw", "/").list;
 
-      slashFiles.map((x) => {
-        let i = "/" + x.replace(".js", "");
-        slashList += "❥ " + i + "\n";
-      });
-
+      // Total commands
+      commands.total += list("cmd", "sfw").length;
+      commands.total += list("cmd", "nsfw").length;
+      commands.total += list("slash", "sfw").length;
+      commands.total += list("slash", "nsfw").length;
+      
       /* Row */
       const row = new MessageActionRow().addComponents(
         new MessageSelectMenu()
@@ -53,13 +74,21 @@ module.exports = {
               value: "slashcmds",
               emoji: "965758319446876201",
             },
+            {
+              label: "Inicio",
+              description: "Menu inicial.",
+              value: "home",
+              emoji: "965758319446876201",
+            },
           ])
       );
 
       /*-------- Menu Embed --------*/
       const Menu = new MessageEmbed()
         .setTitle(`Comandos de ${client.user.username}`)
-        .setDescription(`Categorías: \`2\` & Comandos: \`${totalCmds}\``)
+        .setDescription(
+          `<a:exc:965758319446876201> **Nota**: Este menu solo lista los comandos actuales en tiempo real del bot. Si quieres una descripcion mas detallada de lo que hace y como usar cada comando, haga [click aqui](https://yuu-chan.ml/#commands)\n\nCategorías: \`2\` & Comandos: \`${commands.total}\``
+        )
         .setThumbnail(client.user.avatarURL())
         .addField(
           "Categorías",
@@ -89,10 +118,17 @@ module.exports = {
       const cmds = new MessageEmbed()
         .setTitle(`Comandos de ${client.user.username}`)
         .setDescription(
-          "<a:exc:965758319446876201> **Advertencia**: La siguiente lista de comandos no esta separada de los comandos NSFW.\n\n**Nota**: Los comandos NSFW solo funcionan en canales que tenga activado el NSFW."
+          "<a:exc:965758319446876201> **Nota**: Los comandos NSFW solo funcionan en canales que tenga activado el NSFW."
         )
         .setThumbnail(client.user.avatarURL())
-        .addField("Comandos:", `${cmdList.toString()}`)
+        .addField(
+          `Comandos SFW \`(${list("cmd", "sfw").length})\``,
+          `${commands.cmd.sfw.toString()}`
+        )
+        .addField(
+          `Comandos NSFW: \`(${list("cmd", "nsfw").length})\``,
+          `${commands.cmd.nsfw.toString()}`
+        )
         .setFooter({
           text: `${client.user.username}`,
           iconURL: client.user.avatarURL(),
@@ -104,10 +140,17 @@ module.exports = {
       const slashs = new MessageEmbed()
         .setTitle(`Comandos de ${client.user.username}`)
         .setDescription(
-          "<a:exc:965758319446876201> **Advertencia**: La siguiente lista de comandos no esta separada de los comandos NSFW.\n\n**Nota**: Los comandos NSFW solo funcionan en canales que tenga activado el NSFW."
+          "<a:exc:965758319446876201> **Nota**: Los comandos NSFW solo funcionan en canales que tenga activado el NSFW."
         )
         .setThumbnail(client.user.avatarURL())
-        .addField("Comandos:", `${slashList.toString()}`)
+        .addField(
+          `Comandos SFW \`(${list("slash", "sfw").length})\``,
+          `${commands.slash.sfw.toString()}`
+        )
+        .addField(
+          `Comandos NSFW \`(${list("slash", "nsfw").length})\``,
+          `${commands.slash.nsfw.toString()}`
+        )
         .setFooter({
           text: `${client.user.username}`,
           iconURL: client.user.avatarURL(),
@@ -124,6 +167,10 @@ module.exports = {
         if (i.values[0] === "slashcmds") {
           await i.deferUpdate();
           i.editReply({ embeds: [slashs], components: [row] });
+        }
+        if (i.values[0] === "home") {
+          await i.deferUpdate();
+          i.editReply({ embeds: [Menu], components: [row] });
         }
       });
     } catch (err) {
