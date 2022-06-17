@@ -27,7 +27,7 @@ module.exports = {
         )
         .addField(
           "📆 | Union al servidor:",
-          `${format(member.joinedAt).date}, a las ${format(member.joinedAt).date}`
+          `${format(member.joinedAt).date}, a las ${format(member.joinedAt).hour}`
         )
         .addField(
           "⏰ | Creacion de la cuenta:",
