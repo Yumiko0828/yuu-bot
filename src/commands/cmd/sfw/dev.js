@@ -13,7 +13,7 @@ module.exports = {
         url: "https://yuu-chan.ml"
       })
       .setTitle(`Desarrollador(es) de ${client.user.username}`)
-      .addField("Devs", `» [${dev.username}](https://yumiko0828.ml)`)
+      .addField("Devs", `» [${dev.tag}](https://yumiko0828.ml)`)
       .setColor(client.config.hexColor);
 
     message.reply({ embeds: [embed] });

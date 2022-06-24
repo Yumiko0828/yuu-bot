@@ -4,8 +4,8 @@ const fetch = require("node-fetch");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("hentai")
-    .setDescription("🔞 Genera una imagen hentai"),
+    .setName("school")
+    .setDescription("🔞 Genera una imagen de school"),
   async execute(client, int) {
     if (!int.channel.nsfw) {
       return await int.reply({
@@ -13,11 +13,11 @@ module.exports = {
       });
     }
 
-    fetch("https://akaneko-api.herokuapp.com/api/hentai")
+    fetch("https://akaneko-api.herokuapp.com/api/school")
       .then((res) => res.json())
       .then(async (data) => {
         const embed = new MessageEmbed()
-          .setTitle("<:hornygirl:966070553268064378> Hentai 🔥")
+          .setTitle("<:hornygirl:966070553268064378> School 🔥")
           .setImage(data.url)
           .setColor(client.config.hexColor);
 

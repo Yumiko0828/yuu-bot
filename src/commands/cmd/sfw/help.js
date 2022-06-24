@@ -15,6 +15,7 @@ module.exports = {
       let commands = {
         cmd: {
           sfw: "",
+          music: "",
           nsfw: "",
         },
         slash: {
@@ -45,6 +46,7 @@ module.exports = {
       // Commands
       commands.cmd.sfw += list("cmd", "sfw").list;
       commands.cmd.nsfw += list("cmd", "nsfw").list;
+      commands.cmd.music += list("cmd", "music").list;
 
       // Slash Commands
       commands.slash.sfw += list("slash", "sfw", "/").list;
@@ -52,6 +54,7 @@ module.exports = {
 
       // Total commands
       commands.total += list("cmd", "sfw").length;
+      commands.total += list("cmd", "music").length;
       commands.total += list("cmd", "nsfw").length;
       commands.total += list("slash", "sfw").length;
       commands.total += list("slash", "nsfw").length;
@@ -63,7 +66,7 @@ module.exports = {
           .setCustomId("yuriko_menu")
           .addOptions([
             {
-              label: "Commands",
+              label: "Prefix Commands",
               description: `Comandos de prefijo (${client.config.prefix}).`,
               value: "cmds",
               emoji: "965758319446876201",
@@ -75,7 +78,7 @@ module.exports = {
               emoji: "965758319446876201",
             },
             {
-              label: "Inicio",
+              label: "Home",
               description: "Menu inicial.",
               value: "home",
               emoji: "965758319446876201",
@@ -126,7 +129,11 @@ module.exports = {
           `${commands.cmd.sfw.toString()}`
         )
         .addField(
-          `Comandos NSFW: \`(${list("cmd", "nsfw").length})\``,
+          `Comandos de Musica \`(${list("cmd", "music").length})\``,
+          `${commands.cmd.music.toString()}`
+        )
+        .addField(
+          `Comandos NSFW \`(${list("cmd", "nsfw").length})\``,
           `${commands.cmd.nsfw.toString()}`
         )
         .setFooter({

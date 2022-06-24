@@ -1,13 +1,15 @@
 const { MessageEmbed } = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
 const fetch = require("node-fetch");
 
 module.exports = {
-  name: "uniform",
-  alias: [],
-  async execute(client, message, args) {
-    if (!message.channel.nsfw) {
-      return await message.reply({
-        content: `🔞 **${message.author.username}**, este canal no es **NSFW**`,
+  data: new SlashCommandBuilder()
+    .setName("uniform")
+    .setDescription("🔞 Genera una imagen de uniform"),
+  async execute(client, int) {
+    if (!int.channel.nsfw) {
+      return await int.reply({
+        content: `🔞 **${int.user.username}**, este canal no es **NSFW**`,
       });
     }
 
@@ -19,11 +21,11 @@ module.exports = {
           .setImage(data.url)
           .setColor(client.config.hexColor);
 
-        await message.reply({ embeds: [embed] });
+        await int.reply({ embeds: [embed] });
       })
       .catch(async (err) => {
         console.log(err);
-        await message.channel.send({ content: err.message });
+        await int.reply({ content: err.message, ephemeral: true });
       });
   },
 };
